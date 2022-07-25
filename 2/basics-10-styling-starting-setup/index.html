@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="vue.global.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Dynamic Styling</h1>
+    </header>
+    <section id="styling">
+
+        <!-- appling dynamic inline style as it override all css so we don't use it to offten also everyting 
+            inside quotes is evaluted as javascript so there is single quote on red and #ccc -->
+        <div class="demo" :style="{borderColor: boxASelected? 'red' : '#ccc'}" @click="boxSelected('A')"></div>
+
+        <div :class="boxBSelected ? 'demo active' : 'demo'" @click="boxSelected('B')"></div>
+
+        <!-- passing object which determine which class to be added dynamically -->
+        <!-- <div :class="{demo: true, active: boxCSelected}" @click="boxSelected('C')"></div> -->
+
+        <!-- as demo class is always added so we can unbound it dynamically from vue -->
+        <!-- <div class="demo" :class="{active: boxCSelected}" @click="boxSelected('C')"></div> -->
+
+        <!-- passing array list of class -->
+        <!-- <div :class="['demo',{active: boxCSelected}]" @click="boxSelected('C')"></div> -->
+
+        <!-- computed property with v-bind:class -->
+        <div class="demo" :class="addClasses" @click="boxSelected('C')"></div>
+
+    </section>
+</body>
+
+</html>

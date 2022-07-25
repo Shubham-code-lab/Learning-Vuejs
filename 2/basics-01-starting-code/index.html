@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="vue.global.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal" v-cloak>
+        <h2>My Course Goal</h2>
+        <!-- binding html attribute using v-bind derectives -->
+        <p>v-bind link <a v-bind:href="vueLink" target="_blank">click me</a></p>
+
+        <!-- calling method-->
+        <p>{{outputGoals()}}</p>
+
+        <!-- don't use offten as it is cross site scripting attack -->
+        <!-- using v-html derectives to display value as html(content between tag), for method parenthesis are required -->
+        <p v-html="outputHtml()"></p>
+        <p v-html="htmlCode"></p>
+    </section>
+</body>
+
+</html>
