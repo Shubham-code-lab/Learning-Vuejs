@@ -1,4 +1,7 @@
 <template>
+<div class="container">
+  <user-list></user-list>
+</div>
   <div class="container">
     <div class="block" :class="{animate:canMoveBlock }"></div>
     <button @click="moveBlock">Animate</button>
@@ -11,7 +14,8 @@
     <button @click="showDialog">Show Dialog</button>
   </div>
   
-  <!--  -->
+  <!-- working with mutiple direct child but make sure only is attached to the DOM also don't use two if statement use if and else mode props 
+  out-in tell to (out) the current element and after it is gone (in) the other element by default it is in-out which is vice-versa-->
   <div class="container">
     <transition name="UserAdmin" mode="out-in">
       <button @click="showUser" v-if="!showUserAmin">show user</button>
@@ -32,7 +36,19 @@
     <p v-if="isParaVisible">This is paragraph</p>
     </transition> -->
 
-    <transition name="para">
+    <!-- javascript hooks to style usign javasccript -->
+    <transition 
+    name="para" 
+    :css="false"
+    @before-enter="paraBeforeEnter" 
+    @enter="paraEnter" 
+    @after-enter="paraAfterEnter" 
+    @before-leave="paraBeforeEnter" 
+    @leave="paraLeave" 
+    @after-leave="paraAfterLeave"
+    @enter-cancelled="paraEnterCancelled"
+    @leave-cancelled="paraLeaveCancelled"
+    >
     <p v-if="isParaVisible">This is paragraph</p>
     </transition>
     
@@ -41,16 +57,75 @@
 </template>  
 
 <script>
+import UserList from './components/UserList.vue'
 export default {
+
+components:{
+  UserList
+},
   data() {
     return { 
       dialogIsVisible: false,
       canMoveBlock:false,
       isParaVisible:false,
       showUserAmin:false,
+      enterInterval: null,
+      leaveInterval: null
     };
   },
   methods: {
+    // when animation on same element start again before first finishes this execute so we can cancell first animation
+    paraEnterCancelled(el){
+      console.log(el);
+      console.log("paragraph enter cancelled");
+      clearInterval(this.enterInterval);
+    },
+    paraLeaveCancelled(el){
+      console.log(el);
+      console.log("paragraph leave cancelled");
+      clearInterval(this.leaveInterval);
+    },
+    paraBeforeEnter(el){
+      console.log(el);
+      console.log("paragraph before enter");
+    },
+    paraEnter(el,done){
+      console.log(el);
+      console.log("paragraph enter");
+      let round = 1;
+      this.enterInterval = setInterval(function(){
+        el.style.opacity = round++ * 0.01;
+        if(round >= 100){
+          clearInterval(this.enterInterval);
+          done();
+        }
+      },20);
+    },
+    paraAfterEnter(el){
+      console.log(el);
+      console.log("paragraph after enter");
+    },
+    paraBeforeLeave(el){
+      console.log(el);
+      console.log("paragraph before leave");
+    },
+    paraLeave(el,done){
+      console.log(el);
+      console.log("paragraph leave");
+      let round = 100;
+      this.leaveInterval = setInterval(function(){
+        el.style.opacity = round-- * 0.01;
+        if(round <= 1){
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      },20);
+
+    },
+    paraAfterLeave(el){
+      console.log(el);
+      console.log("paragraph after leave");
+    },
     showUser(){
       this.showUserAmin = true;
     },
@@ -152,13 +227,13 @@ button:active {
   border-radius: 12px;
 }
 
-.para-enter-from{
+/* .para-enter-from{
   transform: translateY(-50px);
   opacity: 0;
-}
+} */
 
 /* vue calculate duration for animation */
-.para-enter-active{
+/* .para-enter-active{
   transition: all 0.3s ease-out;
 }
 .para-enter-leave{
@@ -177,5 +252,5 @@ button:active {
 .para-leave-to{
   transform: translateY(-50px);
   opacity: 0;
-}
+} */
 </style>
