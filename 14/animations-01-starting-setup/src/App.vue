@@ -26,7 +26,7 @@
   <div class="container">
     <!-- transition tag only have one direct child  -->
 
-    <!-- default class name will be when no name attribute is given to transition tag v-enter-from, v-leave-from -->
+    <!-- default class name will be when no name props is given to transition tag v-enter-from, v-leave-from -->
     <!-- <transition>
     <p v-if="isParaVisible">This is paragraph</p>
     </transition> -->
