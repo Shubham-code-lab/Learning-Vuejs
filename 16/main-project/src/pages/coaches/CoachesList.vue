@@ -5,7 +5,7 @@
         <base-card>
         <div class="control">
             <base-button >refresh</base-button> 
-            <base-button mode="outline" link to="/register">Register to Coach</base-button >
+            <base-button mode="outline" link to="/register" v-if="!getUserIsCoach">Register to Coach</base-button >
         </div>
         <ul v-if="hasCoaches">
             <coach-item v-for="coaches in getCoaches" :key="coaches.id" 
@@ -55,6 +55,9 @@ export default {
                 else if(this.filters.career && coach.areas.includes('career'))
                 return true;
             });
+        },
+        getUserIsCoach(){
+            return this.$store.getters.getUserIsCoach;
         }
     },
     methods:{

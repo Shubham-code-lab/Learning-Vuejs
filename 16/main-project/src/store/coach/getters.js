@@ -5,5 +5,6 @@ export default {
     },
     hasCoaches(_, getters) {
         return getters.getCoaches && getters.getCoaches.length > 0;
-    }
+    },
+   
 };

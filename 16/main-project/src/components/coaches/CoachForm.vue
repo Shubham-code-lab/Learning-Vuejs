@@ -1,60 +1,67 @@
 <template>
-    <form @submit.prevent="">
-        <div class="form-control">
-            <label for="firstName" :class="{invalid:newCoach.firstName.isValid}">First Name</label>
-            <input type="text" id="firstName" v-model="newCoach.firstName.value">
-            <p v-if="newCoach.firstName.isValid">PLease Enter your first Name</p>
+    <form @submit.prevent="submitForm">
+        <div class="form-control" :class="{invalid: !newCoach.firstName.isValid}">
+            <label for="firstName" >First Name</label>
+            <input type="text" id="firstName" v-model.trim="newCoach.firstName.value" @blur="validInputField('firstName')">
+            <p v-if="!newCoach.firstName.isValid">PLease Enter your first Name</p>
         </div>
-        <div class="form-control">
-            <label for="lastName" :class="{invalid:newCoach.lastName.isValid}">Last Name</label>
-            <input type="text" id="lastName" v-model="newCoach.lastName.value">
-            <p v-if="newCoach.lastName.isValid">PLease Enter your Last Name</p>
+        <div class="form-control" :class="{invalid:!newCoach.lastName.isValid}">
+            <label for="lastName" >Last Name</label>
+            <input type="text" id="lastName" v-model.trim="newCoach.lastName.value" @blur="validInputField('lastName')">
+            <p v-if="!newCoach.lastName.isValid">PLease Enter your Last Name</p>
         </div>
-        <div class="form-control">
-            <label for="description" :class="{invalid:newCoach.description.isValid}">Description</label>
-            <textarea rows="5" id="description" v-model="newCoach.description.value"></textarea>
-            <p v-if="newCoach.description.isValid">Please Enter your description</p>
+        <div class="form-control" :class="{invalid:!newCoach.description.isValid}">
+            <label for="description" >Description</label>
+            <textarea rows="5" id="description" v-model.trim="newCoach.description.value" @blur="validInputField('description')"></textarea>
+            <p v-if="!newCoach.description.isValid">Please Enter your description</p>
         </div>
-        <div class="form-control">
-            <label for="hourlyRate" :class="{invalid:newCoach.hourlyRate.isValid}">Hourly Rate</label>
-            <input type="number" id="hourlyRate" v-model="newCoach.hourlyRate.value">
-            <p v-if="newCoach.hourlyRate.isValid">Please Enter your payment</p>
+        <div class="form-control" :class="{invalid:!newCoach.hourlyRate.isValid}">
+            <label for="hourlyRate" >Hourly Rate</label>
+            <input type="number" id="hourlyRate" v-model.number="newCoach.hourlyRate.value" @blur="validInputField('hourlyRate')">
+            <p v-if="!newCoach.hourlyRate.isValid">Please Enter your payment</p>
         </div>
-        <div class="form-control">
-            <input type="checkbox" id="frontend" value="frontend" v-model="newCoach.areas.value">
-            <label for="frontend">Frontend</label>
-            <input type="checkbox" id="backend" value="backend" v-model="newCoach.areas.value">
-            <label for="backend">Backend</label>
-            <input type="checkbox" id="carrer" value="carrer" v-model="newCoach.areas.value">
-            <label for="carrer">Carrer</label>
-            <p v-if="newCoach.areas.isValid">Please choose your field</p>
+        <div class="form-control" :class="{invalid:!newCoach.areas.isValid}">
+          <div>
+              <input type="checkbox" id="frontend" value="frontend" v-model="newCoach.areas.value" @blur="validInputField('areas')">
+              <label for="frontend">Frontend</label>
+            </div>
+            <div>
+              <input type="checkbox" id="backend" value="backend" v-model="newCoach.areas.value" @blur="validInputField('areas')">
+              <label for="backend">Backend</label>
+            </div>
+            <div>
+              <input type="checkbox" id="carrer" value="carrer" v-model="newCoach.areas.value" @blur="validInputField('areas')">
+              <label for="carrer">Carrer</label>
+            </div>
+            <p v-if="!newCoach.areas.isValid">Please choose your field</p>
         </div>
         <base-button mode="outline">submit</base-button>
     </form>
 </template>
 <script>
 export default {
+    emits:['addCoach'],
     data(){
         return {
             newCoach:{
                 firstName:{
-                    isValid: false,
+                    isValid: true,
                     value: "",
                 },
                 lastName:{
-                    isValid: false,
+                    isValid: true,
                     value: "",
                 },
                 description:{
-                    isValid: false,
+                    isValid: true,
                     value: "",
                 },
                 hourlyRate:{
-                    isValid: false,
+                    isValid: true,
                     value: null,
                 },
                 areas:{
-                    isValid: false,
+                    isValid: true,
                     value: [],
                 },
             },
@@ -62,8 +69,47 @@ export default {
         }
     },
     methods: {
-        Validation(){},
-        submitForm(){}
+        validInputField(field){
+          this.newCoach[field].isValid = true; 
+        },
+
+        ValidateForm(){
+          this.isFormValid = true;
+          if(this.newCoach.firstName.value === ""){
+            this.newCoach.firstName.isValid = false;
+             this.isFormValid = false
+          }
+          if(this.newCoach.lastName.value === ""){
+            this.newCoach.lastName.isValid = false;
+            this.isFormValid = false
+          }
+          if(this.newCoach.description.value === ""){
+            this.newCoach.description.isValid = false;
+            this.isFormValid = false
+          }
+          if(!this.newCoach.hourlyRate.value || this.newCoach.hourlyRate < 0){
+            this.newCoach.hourlyRate.isValid = false;
+            this.isFormValid = false
+          }
+          if(this.newCoach.areas.value.length === 0){
+            this.newCoach.areas.isValid = false;
+            this.isFormValid = false
+          }
+        },
+        submitForm(){
+          this.ValidateForm();
+          if(this.isFormValid){
+            const confirmCoach = {
+              firstName:this.newCoach.firstName.value,
+              lastName:this.newCoach.lastName.value,
+              description:this.newCoach.description.value,
+              hourlyRate:this.newCoach.hourlyRate.value,
+              areas:this.newCoach.areas.value,
+            }
+            this.$emit('addCoach', confirmCoach);
+            this.$router.replace('/coaches');
+          }
+        }
     },
 }
 </script>
