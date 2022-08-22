@@ -30,6 +30,7 @@ export default {
         }
     },
     created() {
+        console.log("coachDetail",this.$route);
         this.currentCoach = this.$store.getters['coaches/getCoaches'].find(coaches=>coaches.id === this.id);
     },
     computed:{
