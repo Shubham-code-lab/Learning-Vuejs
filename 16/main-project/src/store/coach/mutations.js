@@ -5,5 +5,6 @@ export default {
     setCoaches(state,  payLoad){     //from database
         console.log("database",payLoad);
         state.coaches = payLoad;
-    }
+    },
+    
 };

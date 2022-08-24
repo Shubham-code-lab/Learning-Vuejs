@@ -1,13 +1,19 @@
 <template>
 <div>
+    <base-dialog :show="!!error" title="FireBase Error occur"  @close="closeDialog">
+        <p>Chack what happen at the database</p>
+    </base-dialog>
     <coach-filter @filterCoaches="filterCoaches"></coach-filter>
     <section>
         <base-card>
         <div class="control">
             <base-button @click="loadCoaches">refresh</base-button> 
-            <base-button mode="outline" link to="/register" v-if="!getUserIsCoach">Register to Coach</base-button >
+            <base-button mode="outline" link to="/register" v-if="!getUserIsCoach && !isLoading">Register to Coach</base-button >
         </div>
-        <ul v-if="hasCoaches">
+        <div v-if="isLoading">
+            <base-spinner></base-spinner>
+        </div>
+        <ul v-else-if="hasCoaches">
             <coach-item v-for="coaches in getCoaches" :key="coaches.id" 
                 :id="coaches.id"
                 :first-name="coaches.firstName"
@@ -17,6 +23,7 @@
             ></coach-item>
         </ul>
         <h3 v-else>No Coaches found</h3>
+        
         </base-card>
     </section>
 </div>
@@ -38,15 +45,17 @@ export default {
                 frontend:true,
                 backend: true,
                 career:true,
-            }
+            },
+            isLoading: false,
+            error: null
         }
     },
     created() {
         this.loadCoaches();
     },
     computed:{
-        hasCoaches(){
-            return this.$store.getters['coaches/hasCoaches'];
+        hasCoaches(){   
+            return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
         },
         getCoaches(){
             const coaches = this.$store.getters['coaches/getCoaches'];
@@ -67,8 +76,18 @@ export default {
         filterCoaches(newUpdatedFilters){
             this.filters = newUpdatedFilters
         },
-        loadCoaches(){
-            this.$store.dispatch('coaches/loadCoaches');
+        async loadCoaches(){
+            this.isLoading = true;
+            try {
+                 await this.$store.dispatch('coaches/loadCoaches');
+            } catch (error) {
+                this.error = error.message || 'Something went wrong';
+            }
+           
+            this.isLoading = false;
+        },
+        closeDialog(){
+            this.error = null;
         }
     }
 }
@@ -84,4 +103,8 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+
+
+
+
 </style>

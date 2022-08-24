@@ -18,17 +18,21 @@ export default {
 
         // const responseData = await response.json();
         if(!response.ok){
-            //error message
+            //error
         }
         console.log(payLoad);
         context.commit('addNewCoach',payLoad);
     },
     
     async loadCoaches(context){
+        console.log(context.getters.updateCoaches);
+        if(!context.getters.updateCoaches)return;
+
         const response  = await fetch(`https://coaches-e2269-default-rtdb.firebaseio.com/coaches.json`);
         const responseData = await response.json();
         if(!response.ok){
-            //error
+            const error = new Error(response.message || "Failed to fetch");
+            throw error;
         }
         const coaches = []
         console.log("databse object",responseData);
@@ -43,6 +47,7 @@ export default {
             };
             coaches.push(coach);
         }
+        context.state.lastUpdateTime = new Date().getTime();
         context.commit('setCoaches',coaches);
     }
 };

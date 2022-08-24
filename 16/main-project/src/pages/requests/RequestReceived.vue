@@ -1,10 +1,14 @@
 <template>
     <section>
+        <base-dialog :show="!!error" title="FireBase Error occur"  @close="closeDialog">
+        <p>Chack what happen at the database</p>
+    </base-dialog>
         <base-card>
         <header>
             <h2>Request Received</h2>
         </header>
-        <ul v-if="getHaveRequest">
+        <base-spinner v-if="isLoading"></base-spinner>
+        <ul v-else-if="getHaveRequest">
             <request-item v-for="request in getRequest" :key="request" :email="request.userEmail" :message="request.userMessage"></request-item>
         </ul>
         <h3 v-else>No reuqest!!</h3>
@@ -17,6 +21,15 @@ export default {
     components:{
         RequestItem
     },
+    created() {
+        this.loadRequest();
+    },
+    data() {
+        return {
+            isLoading: false,
+            error: null,
+        }
+    },
     computed:{
         getRequest(){
             return this.$store.getters['requests/getRequest'];
@@ -24,7 +37,22 @@ export default {
         getHaveRequest(){
             return this.$store.getters['requests/getHaveRequest'];
         }
-    }
+    },
+    methods: {
+        async loadRequest(){
+            const coachId = this.$store.getters.getUserId;
+            this.isLoading = true;
+            try {
+                await this.$store.dispatch('requests/loadRequest',{coachId});
+            } catch (error) {
+                this.error = error.message || 'Something went wrong';
+            }   
+            this.isLoading = false;
+        },
+        closeDialog(){
+            this.error = null;
+        }
+    },
 }
 </script>
 <style scoped>

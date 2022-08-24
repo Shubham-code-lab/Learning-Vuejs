@@ -6,7 +6,8 @@ const requests = {
     namespaced:true,
     state(){
         return{
-            requests:[]
+            requests:[],
+            lastUpdateTime: null,
         }
     },
     getters,
