@@ -47,6 +47,7 @@ const app = Vue.createApp({
             this.name = event.target.value;
         },
         add(num) {
+            console.log("counter lol");
             this.counter = this.counter + num;
         },
         reduce(num) {

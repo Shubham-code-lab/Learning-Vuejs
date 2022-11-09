@@ -1,6 +1,6 @@
 const app = Vue.createApp({ //object of configuration setting
-    data() { //options :- data function         
-        return { //return object containing data
+    data() { //options :- data function   //data: function(){  
+        return { //return object containing data that our vue app should aware off
             courseGoal1: "Started learning Vue!",
             courseGoal2: "Finished Learning Vue!",
             vueLink: 'https://www.google.com/',
@@ -20,4 +20,4 @@ const app = Vue.createApp({ //object of configuration setting
     }
 });
 
-app.mount('#user-goal');
+app.mount('#user-goal');     //css selector

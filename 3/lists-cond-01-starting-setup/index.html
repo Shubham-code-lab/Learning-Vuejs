@@ -21,8 +21,12 @@
         <input type="text" ref="inputfield" v-model="newGoal" />
         <button @click="addGoal()">Add Goal</button>
         <!-- v-show check the condition and css property display none if consition is false -->
+        <!-- usefull when element is displayed and remove multiple time for optimization -->
+        <!-- unlike v-if where it completly remove element -->
         <!-- <p v-show="goals.length === 0">No goals have been added yet - please start adding some!</p> -->
+
         <p v-if="goals.length === 0">No goals have been added yet - please start adding some!</p>
+            <!-- v-else-if=" "     //use v-if v-else-if v-else on consecutive sibling element-->
         <ul v-else>
             <!-- :key are identify by vue to diffrenciate between diffrent wrapper element index is not unique here but goal 
             is unique becoz after removing first list item index 0 is assign to second element but list value is  diffrent(unique)-->
@@ -30,6 +34,8 @@
                 <p>{{index+1}}. {{goal}}</p>
                 <input type="text" @click.stop></input>
             </li>
+
+            <!-- v-for="num in 10"    //loop from num= 1 to 10-->
 
             <!-- v-for with object -->
             <!-- 
