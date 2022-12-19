@@ -16,7 +16,7 @@ export default {
   methods:{
     confirm(){
       this.$router.push('/teams');  
-      //back and forward are other methods
+      //back and forward are other methods  
     }
   }
 };

@@ -31,7 +31,7 @@ export default {
       this.teamName = '';
       // const teamId = route.params.teamId;
       const teamIdObject = this.teams.find((team) => team.id === teamId);
-      const MembersId = teamIdObject.members;
+      const MembersId = teamIdObject.members; 
       for (const memberId of MembersId) {
         const member = this.users.find(user => user.id === memberId)
         this.members.push(member);

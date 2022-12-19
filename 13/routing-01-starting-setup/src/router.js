@@ -10,7 +10,7 @@ import UsersFooter from './components/users/UsersFooter.vue';
 
 const router = createRouter({
     history: createWebHistory(), //tell to use default browser history 
-    routes: [
+    routes: [ 
         { path: '/', component: TeamsList }, // link is just root / but still display TeamsList component 
         // { path: '/teams', component: TeamsList, alias: '/' }, //work same as above
         // { path: '/', redirect: '/teams' }, // when you are on home page redirect to from / to /teams
@@ -46,14 +46,13 @@ const router = createRouter({
     ],
     linkActiveClass: 'active',
     scrollBehavior(to, from, savedPosition) { //to = current link, from = page that we come from, savedPosition = scroll position of from page 
-        // scrollBehavior(_, _2, savedPosition) { // use underscore if you don't want those parameter but menthion them in order to get third parameter 
+        // scrollBehavior(_, _2, savedPosition) { // use underscore if you don't want those parameter but mention them in order to get third parameter 
         if (savedPosition) { //my research = you visit page one scroll to bottom then you visit page two scroll to top again you visit page one it get loaded from top (even if you visitied same page twice it get laoad from top but when you press browser back button it get loaded were you scroll was left even it is same page)
             return savedPosition;
         } else {
             return { left: 0, top: 0 } // it make all page to load at top position
         }
     },
-
 });
 
 router.beforeEach(function(to, from, next) {
@@ -75,7 +74,7 @@ router.beforeEach(function(to, from, next) {
     // } //this will always redirect to team-members so we are commenting it
 });
 
-router.afterEach(function(to, from) {
+router.afterEach(function(to, from) { 
     console.log('Global afterEach');
     //execute at last so you can send analitical data
     console.log(to, from);

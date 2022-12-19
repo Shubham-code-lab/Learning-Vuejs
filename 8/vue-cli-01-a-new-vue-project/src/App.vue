@@ -1,4 +1,4 @@
-<template>
+    <template>
     <section>
         <header>
             <h1>

@@ -7,7 +7,7 @@
                 <li><strong>Phone: </strong>{{ friend.phone }}</li>
                 <li><strong>Email: </strong>{{ friend.email }}</li>
             </ul>
-    </li>-->
+    </li>-->    
 
         <li>
             <h2>{{ name }} {{ isFavorite ? "favroite" : "" }}</h2>

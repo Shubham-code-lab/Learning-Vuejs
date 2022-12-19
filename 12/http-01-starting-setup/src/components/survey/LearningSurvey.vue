@@ -45,7 +45,7 @@ export default {
     submitSurvey() {
       this.error = null;
       if (this.enteredName === '' || !this.chosenRating) {
-        this.invalidInput = true;
+        this.invalidInput = true;  
         return;
       }
       this.invalidInput = false;

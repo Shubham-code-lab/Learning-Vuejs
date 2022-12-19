@@ -2,15 +2,21 @@
   <form @submit.prevent="submitForm">
     <div class="form-control" :class="{ invalid: validInput === 'Invalid' }">
       <label for="user-name">Your Name</label>
+      <!-- @blur trigger when input lose focus  -->
+      <!-- @input  -->
       <input id="user-name" name="user-name" type="text" @blur="checkValidInput" v-model.trim="userName" />
       <p v-if="validInput === 'Invalid'">Please input a valid input</p>
     </div>
     <div class="form-control">
       <label for="age">Your Age (Years)</label>
+      <!-- v-model= when used on type= number will set variable userAge to type number  -->
+      <!-- v-model.number= no need but it forces to get number type but no need as it does automatically -->
+      <!-- ref=   while ref return string -->
       <input id="age" name="age" type="number" v-model='userAge' ref="userAge" />
     </div>
     <div class="form-control">
       <label for="referrer">How did you hear about us?</label>
+      <!--v-model option value are automatically store in refferrer varibale  -->
       <select id="referrer" name="referrer" v-model="referrer">
         <option value="google">Google</option>
         <option value="wom">Word of mouth</option>
@@ -18,7 +24,15 @@
       </select>
     </div>
     <div class="form-control">
+      <div>
+        <!-- for single checkbox v-model return a true or false value -->
+        <input type="checkbox" id="accept-term" name="accept-term" v-model="confirm">
+        <label for="accept-term"> Accpet terms and condition</label>
+      </div>
+    </div>
+    <div class="form-control">
       <h2>What are you interested in?</h2>
+      <!-- when we have multiple checkboxes v-model create group of value and store it in  varibale(insterest)-->
       <div>
         <input id="interest-news" name="interest" type="checkbox" value="news" v-model="interest" />
         <label for="interest-news">News</label>
@@ -34,6 +48,7 @@
     </div>
     <div class="form-control">
       <h2>How do you learn?</h2>
+      <!-- in radio button only one value is select at a time so v-model does not return array but retrun a single value-->
       <div>
         <input id="how-video" name="how" type="radio" value="Video Courses" v-model="learningMethod" />
         <label for="how-video">Video Courses</label>
@@ -49,12 +64,6 @@
     </div>
     <div class="form-control">
       <rating-option v-model="rating"></rating-option>
-    </div>
-    <div class="form-control">
-      <div>
-        <input type="checkbox" id="accept-term" name="accept-term" v-model="confirm">
-        <label for="accept-term"> Accpet terms and condition</label>
-      </div>
     </div>
     <div>
       <button>Save Data</button>

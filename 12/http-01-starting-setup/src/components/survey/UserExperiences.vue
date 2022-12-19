@@ -37,7 +37,8 @@ export default {
     loadExperiences() {
       this.error = null;
       //then execute when data is arrive at the client side becoz javascript don't pause or app don't freeze on server request
-      fetch('https://vue-http-demo-ac3b1-default-rtdb.asia-southeast1.firebasedatabase.app/surveys.json').then((response) => {
+      fetch('https://vue-http-demo-ac3b1-default-rtdb.asia-southeast1.firebasedatabase.app/surveys.json')
+      .then((response) => {
         if (response.ok) {                    //weather it is successfull request or not //404 error
           return response.json();             //to parce or convert the data we recieve we use json which in then return promise that we again return usgin return keyword
         }

@@ -14,7 +14,7 @@ export default {
       // return '/teams/' + this.id;
       // return {path: '/teams/' + this.id};
       return {name: 'team-memebers', params:{teamId: this.id}, query:{str: "This is string"}};  //query parameter which is visible in url you can access it as it is present in this.$route object
-      // this.$route.push({name: 'team-memebers', params:{teamId: this.id}});
+      // this.$router.push({name: 'team-memebers', params:{teamId: this.id}});
     }
   }
 };
